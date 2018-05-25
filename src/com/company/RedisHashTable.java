@@ -28,9 +28,11 @@ public class RedisHashTable implements Map<String, String>, Cloneable, Serializa
 
     @Override
     public void clear() {
-        getMap().clear();
         innerMap.clear();
         localSize = 0;
+        for (String key : keySet()) {
+            this.remove(key);
+        }
         //size = new AtomicInteger(0);
     }
 

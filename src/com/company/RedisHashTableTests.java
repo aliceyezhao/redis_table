@@ -12,11 +12,16 @@ public class RedisHashTableTests {
         //rootKey is rootkey
         map.put("a", "1");
         System.out.println(map.get("a")); // expect 1
-        //redic-cli: hset rootkey b 2
+        //$ redic-cli: hset rootkey b 2
         System.out.println(map.get("b")); // expect 2
         map.remove("b");
         //hget b should return nil
         System.out.println(map.get("b")); //expect nil
-        System.out.println(map.size());   //map in redis is 1 (or 1 + initial size)
+        System.out.println(map.size());   //expect 1 + initial size
+        map.put("c", "3");
+        System.out.println(map.entrySet()); //expect a --> 1, c --> 3
+        map.clear();
+        System.out.println(map.size()); //expect 0
+
     }
 }
