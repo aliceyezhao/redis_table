@@ -13,7 +13,7 @@ A distributed data structure with redis that replaces in-memory operations with 
   
   $ hdel rootkey key //removes key-value pair
   
-  $ hgeall rootkey //shows all key value pairs
+  $ hgeall rootkey //shows all key-value pairs
  
 ## RedisHashTable 
 Use RedisHashTable to store key-value pairs both locally and in the redis server; they will be accessible from both. 
