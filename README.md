@@ -1,7 +1,7 @@
 # Redis Data Structures
 A distributed data structure with redis that replaces in-memory operations with redis commands.
 
-Connect to the redis server
+## Connect to the redis server
   
   $ redis server
   
