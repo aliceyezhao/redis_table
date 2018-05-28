@@ -1,5 +1,5 @@
 # Redis Data Structures
-A distributed data structure with redis that replaces in-memory operations with redis commands. All data structures also include a local data strucuture that is stored in memory and not connected to redis. When testing, keep in mind that redis shell commands are not reflected in the local data strucutres.
+A distributed data structure with redis that replaces in-memory operations with redis commands. All data structures also include a local data strucuture that is stored in memory and not connected to redis. Redis shell commands are not reflected in the local data strucutres. Commented redis shell commands in testing files should be run before moving on to the rest of the test to get the expected outputs.
 
 ## Connect to the redis server
   
