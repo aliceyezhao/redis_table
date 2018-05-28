@@ -9,7 +9,7 @@ public class RedisHashTableTests {
         String rootKey = args[2];
 
         Map<String, String> map = new RedisHashTable(ipAddress, portNumber, rootKey);
-        //rootKey is rootkey
+        //rootKey is rootKey1
         map.put("a", "1");
         System.out.println(map.get("a")); // expect 1
         //$ redic-cli: hset rootkey b 2

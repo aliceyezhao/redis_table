@@ -1,6 +1,5 @@
 package com.company;
 
-import java.util.concurrent.atomic.AtomicInteger;
 import redis.clients.jedis.*;
 
 public class RedisInteger {
@@ -21,6 +20,7 @@ public class RedisInteger {
         this.localInt = 0;
         this.jedis = new Jedis(ipAddress, portNumber);
         this.rootKey = rootKey;
+        this.set(0);
     }
 
     public int get() {

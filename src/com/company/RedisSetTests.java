@@ -11,7 +11,7 @@ public class RedisSetTests {
         String rootKey = args[2];
 
         Set<String> set = new RedisSet(ipAddress, portNumber, rootKey);
-        //rootKey is root
+        //rootKey is rootKey2
         //$ redic-cli: sadd root a
         set.add("b");
         //$ redic-cli: sadd root c

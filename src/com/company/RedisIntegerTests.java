@@ -13,7 +13,7 @@ public class RedisIntegerTests {
         RedisInteger ai0 = new RedisInteger(ipAddress, portNumber, rootKey);
         //RedisInteger ai = new RedisInteger(ipAddress, portNumber, rootKey, startingValue);
 
-        //rootKey is key
+        //rootKey is rootKey3
         System.out.println(ai0.get());  //expect 0
         for (int i = 0; i < cap; i++) {
             ai0.redisIncr();
