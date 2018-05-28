@@ -92,48 +92,45 @@ public class RedisSet implements Set<String>, Cloneable, Serializable {
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        return getSet().containsAll(c);
+        Set<String> addedSet = getSet();
+        addedSet.retainAll(c);
+        return addedSet == c;
     }
 
     @Override
     public boolean addAll(Collection<? extends String> c) {
         Set<String> oldSet = getSet();
-        //jedis.sunion(rootKey, c);
-        for (Object s : c) {
-            if (!contains(s)) {
-                this.add(s.toString());
-            }
+        //add each elem redis will handle duplicates
+        for (String s : c) {
+            this.add(s);
         }
         innerSet.addAll(c);
-        return oldSet != getSet();
-        //return true if set changes
+        return oldSet != getSet(); //return true if set changes
     }
 
     @Override
     public boolean retainAll(Collection<?> c) {
-        Set<String> oldSet = getSet();
-        //jedis.sinter(rootKey, c);
-        for (Object s : c) {
-            if (!contains(s)) {
-                this.remove(s);
-            }
-        }
-        innerSet.retainAll(c);
-        return oldSet != getSet();
-
+        throw new UnsupportedOperationException();
+//        Set<String> oldSet = getSet();
+//        //jedis.sinter(rootKey, c);
+//        for (Object s : c) {
+//            if (!contains(s)) {
+//                this.remove(s);
+//            }
+//        }
+//        innerSet.retainAll(c);
+//        return oldSet != getSet();
     }
 
     @Override
     public boolean removeAll(Collection<?> c) {
         Set<String> oldSet = getSet();
-        //jedis.sdiff(rootKey, c);
+        //remove each elem, okay if elem not present
         for (Object s : c) {
-            if (contains(s)) {
-                this.remove(s);
-            }
+            this.remove(s);
         }
         innerSet.removeAll(c);
-        return oldSet != getSet();
+        return oldSet != getSet(); //return true if set changes
     }
 
     @Override
