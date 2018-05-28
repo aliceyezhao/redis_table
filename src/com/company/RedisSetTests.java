@@ -30,10 +30,10 @@ public class RedisSetTests {
 
         System.out.println(set.containsAll(c)); //expect false
         System.out.println(set.addAll(c));      //expect true
-//        //$ redic-cli: smembers root            //{"c", "d", "e"}
+        //$ redic-cli: smembers root            //{"c", "d", "e"}
         System.out.println(set.size());         //expect 3 + initial size
         System.out.println(set.removeAll(c));   //expect true
-//        //$ redic-cli: smembers root            //{}
+        //$ redic-cli: smembers root            //{}
         System.out.println(set.size());         //expect 0 + initial size
 
         set.clear();

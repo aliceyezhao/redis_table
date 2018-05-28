@@ -10,7 +10,7 @@ import java.util.Set;
 
 public class RedisSet implements Set<String>, Cloneable, Serializable {
 
-    private transient Set<String> innerSet = new HashSet<String>();
+    private transient Set<String> localSet = new HashSet<String>();
     private String rootKey;
     private Jedis jedis;
     private int localSize;
@@ -21,8 +21,8 @@ public class RedisSet implements Set<String>, Cloneable, Serializable {
         this.localSize = 0;
     }
 
-    public RedisSet(Collection<String> collection) {
-
+    public Set<String> getLocalSet() {
+        return localSet;
     }
 
     private Set<String> getSet() {
@@ -73,7 +73,7 @@ public class RedisSet implements Set<String>, Cloneable, Serializable {
             return false;
         }
         jedis.sadd(rootKey, s);
-        innerSet.add(s);
+        localSet.add(s);
         localSize++;
         return true;
     }
@@ -85,7 +85,7 @@ public class RedisSet implements Set<String>, Cloneable, Serializable {
         return false;
         }
         jedis.srem(rootKey, key);
-        innerSet.remove(o);
+        localSet.remove(o);
         localSize--;
         return true;
     }
@@ -104,7 +104,7 @@ public class RedisSet implements Set<String>, Cloneable, Serializable {
         for (String s : c) {
             this.add(s);
         }
-        innerSet.addAll(c);
+        localSet.addAll(c);
         return oldSet != getSet(); //return true if set changes
     }
 
@@ -129,7 +129,7 @@ public class RedisSet implements Set<String>, Cloneable, Serializable {
         for (Object s : c) {
             this.remove(s);
         }
-        innerSet.removeAll(c);
+        localSet.removeAll(c);
         return oldSet != getSet(); //return true if set changes
     }
 
@@ -138,7 +138,7 @@ public class RedisSet implements Set<String>, Cloneable, Serializable {
         for (Object s : getSet()) {
             this.remove(s);
         }
-        innerSet.clear();
+        localSet.clear();
     }
 
     @Override

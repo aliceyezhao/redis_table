@@ -8,7 +8,7 @@ import redis.clients.jedis.*;
 
 public class RedisHashTable implements Map<String, String>, Cloneable, Serializable {
 
-    private transient Map<String, String> innerMap = new HashMap<String, String>();
+    private transient Map<String, String> localMap = new HashMap<String, String>();
     //transient Set<redisNode> entrySet = new RedisSet<redisNode>();
     private String rootKey;
     private Jedis jedis;
@@ -32,7 +32,7 @@ public class RedisHashTable implements Map<String, String>, Cloneable, Serializa
 
     @Override
     public void clear() {
-        innerMap.clear();
+        localMap.clear();
         localSize = 0;
         for (String key : keySet()) {
             this.remove(key);
@@ -58,20 +58,20 @@ public class RedisHashTable implements Map<String, String>, Cloneable, Serializa
 
     @Override
     public boolean equals(Object o) {
-        return innerMap.equals(o);
+        return localMap.equals(o);
     }
 
     @Override
     public String get(Object key) {
-        if (innerMap.get(key) != null) {
-            return innerMap.get(key);
+        if (localMap.get(key) != null) {
+            return localMap.get(key);
         }
         return jedis.hget(rootKey, key.toString());
     }
 
     @Override
     public int hashCode() {
-        return innerMap.hashCode();
+        return localMap.hashCode();
     }
 
     @Override
@@ -87,7 +87,7 @@ public class RedisHashTable implements Map<String, String>, Cloneable, Serializa
     @Override
     public String put(String key, String value) {
         jedis.hset(rootKey, key, value);
-        innerMap.put(key, value);
+        localMap.put(key, value);
         if (!containsKey(key)) {
             localSize++;
         }
@@ -112,7 +112,7 @@ public class RedisHashTable implements Map<String, String>, Cloneable, Serializa
             //jedis.decr(size.toString());
             String removed = get(key);
             jedis.hdel(rootKey, key.toString());
-            innerMap.remove(key);
+            localMap.remove(key);
             return removed;
         }
         return null;
