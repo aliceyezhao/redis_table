@@ -26,6 +26,10 @@ public class RedisHashTable implements Map<String, String>, Cloneable, Serializa
         return jedis.hgetAll(rootKey);
     }
 
+    private int getLocalSize() {
+        return localSize;
+    }
+
     @Override
     public void clear() {
         innerMap.clear();
