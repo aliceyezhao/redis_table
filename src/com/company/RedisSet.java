@@ -21,6 +21,10 @@ public class RedisSet implements Set<String>, Cloneable, Serializable {
         this.localSize = 0;
     }
 
+    public RedisSet(Collection<String> collection) {
+
+    }
+
     private Set<String> getSet() {
         return jedis.smembers(rootKey);
     }
@@ -94,7 +98,12 @@ public class RedisSet implements Set<String>, Cloneable, Serializable {
     @Override
     public boolean addAll(Collection<? extends String> c) {
         Set<String> oldSet = getSet();
-        jedis.sunion(rootKey, c);
+        //jedis.sunion(rootKey, c);
+        for (Object s : c) {
+            if (!contains(s)) {
+                this.add(s.toString());
+            }
+        }
         innerSet.addAll(c);
         return oldSet != getSet();
         //return true if set changes
@@ -103,7 +112,12 @@ public class RedisSet implements Set<String>, Cloneable, Serializable {
     @Override
     public boolean retainAll(Collection<?> c) {
         Set<String> oldSet = getSet();
-        jedis.sinter(rootKey, c);
+        //jedis.sinter(rootKey, c);
+        for (Object s : c) {
+            if (!contains(s)) {
+                this.remove(s);
+            }
+        }
         innerSet.retainAll(c);
         return oldSet != getSet();
 
@@ -112,7 +126,12 @@ public class RedisSet implements Set<String>, Cloneable, Serializable {
     @Override
     public boolean removeAll(Collection<?> c) {
         Set<String> oldSet = getSet();
-        jedis.sdiff(rootKey, c);
+        //jedis.sdiff(rootKey, c);
+        for (Object s : c) {
+            if (contains(s)) {
+                this.remove(s);
+            }
+        }
         innerSet.removeAll(c);
         return oldSet != getSet();
     }
